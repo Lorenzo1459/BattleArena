@@ -5,6 +5,14 @@ public class Bullet : MonoBehaviour {
     public float lifetime = 2f; // Tempo de vida do projétil
     public float pushForce = 10f; // Força de empurrão
 
+    public ExplosionForce explosionForce;
+
+    void OnCollisionEnter(Collision collision) {
+        // Replace with your own condition to trigger the explosion
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy")) {
+            explosionForce.Explode();
+        }
+    }
     void Start() {
         Destroy(gameObject, lifetime);
     }
