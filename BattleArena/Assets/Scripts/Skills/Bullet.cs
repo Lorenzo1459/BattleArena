@@ -2,17 +2,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
     public float speed = 20f;
-    public float lifetime = 2f; // Tempo de vida do projétil
-    public float pushForce = 10f; // Força de empurrão
+    public float lifetime = 2f; // Tempo de vida do projï¿½til
+    public float pushForce = 10f; // Forï¿½a de empurrï¿½o
+
+
 
     public ExplosionForce explosionForce;
 
-    void OnCollisionEnter(Collision collision) {
-        // Replace with your own condition to trigger the explosion
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Enemy")) {
-            explosionForce.Explode();
-        }
-    }
     void Start() {
         Destroy(gameObject, lifetime);
     }
@@ -21,30 +17,47 @@ public class Bullet : MonoBehaviour {
         transform.Translate(Vector3.forward * speed * Time.deltaTime);
     }
 
-    void OnTriggerEnter(Collider other) {
-        // Aplica uma força de empurrão ao objeto colidido usando CharacterController
-        CharacterController targetController = other.GetComponent<CharacterController>();
-        if (targetController != null) {
-            Vector3 direction = other.transform.position - transform.position;
-            direction.y = 0; // Remove a força na direção vertical, se necessário
-            direction.Normalize();
+    private void OnCollisionEnter(Collision other) {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 10);
+        foreach (Collider collider in colliders)
+        {
+            CharacterController characterController = collider.GetComponent<CharacterController>();
+            if (characterController != null)
+            {
+                Vector3 explosionDirection = collider.transform.position - transform.position;
+                float distance = explosionDirection.magnitude;
 
-            // Aplica um empurrão manualmente movendo o CharacterController
-            StartCoroutine(PushCharacter(targetController, direction * pushForce));
+                characterController.gameObject.GetComponent<BasicRigidBodyPush>().Push(explosionDirection, distance);
+                //explosionDirection.Normalize();
+            }
         }
-
-        // Destroi o projétil após a colisão
         Destroy(gameObject);
     }
 
-    System.Collections.IEnumerator PushCharacter(CharacterController controller, Vector3 force) {
-        float pushDuration = 0.1f; // Duração do empurrão
-        float timer = 0f;
+    // void OnTriggerEnter(Collider other) {
+    //     // Aplica uma forï¿½a de empurrï¿½o ao objeto colidido usando CharacterController
+    //     CharacterController targetController = other.GetComponent<CharacterController>();
+    //     if (targetController != null) {
+    //         Vector3 direction = other.transform.position - transform.position;
+    //         direction.y = 0; // Remove a forï¿½a na direï¿½ï¿½o vertical, se necessï¿½rio
+    //         direction.Normalize();
 
-        while (timer < pushDuration) {
-            controller.Move(force * Time.deltaTime);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-    }
+    //         // Aplica um empurrï¿½o manualmente movendo o CharacterController
+    //         StartCoroutine(PushCharacter(targetController, direction * pushForce));
+    //     }
+
+    //     // Destroi o projï¿½til apï¿½s a colisï¿½o
+    //     Destroy(gameObject);
+    // }
+
+    // System.Collections.IEnumerator PushCharacter(CharacterController controller, Vector3 force) {
+    //     float pushDuration = 0.1f; // Duraï¿½ï¿½o do empurrï¿½o
+    //     float timer = 0f;
+
+    //     while (timer < pushDuration) {
+    //         controller.Move(force * Time.deltaTime);
+    //         timer += Time.deltaTime;
+    //         yield return null;
+    //     }
+    // }
 }
