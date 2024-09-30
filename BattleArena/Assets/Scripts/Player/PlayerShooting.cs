@@ -1,15 +1,19 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour {
     public GameObject projectilePrefab; // O prefab do projétil
     public Transform firePoint; // Ponto de onde o projétil será disparado
     public float projectileSpeed = 10f; // Velocidade do projétil
+    private bool canShoot = true; // Flag to check if the player can shoot
 
     void Update() {
         // Verifica se o jogador pressiona a tecla de disparo (ex: espaço)
-        if (Input.GetButtonDown("Fire1")) // Fire1 é geralmente o botão esquerdo do mouse ou Ctrl
+        if (Input.GetButtonDown("Fire1") && canShoot) // Fire1 é geralmente o botão esquerdo do mouse ou Ctrl
         {
             Shoot();
+            StartCoroutine(ShootCooldown());
         }
     }
 
@@ -30,5 +34,11 @@ public class PlayerShooting : MonoBehaviour {
         // If using your Bullet script to move it
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         // If you need to pass any direction or other values to the bullet, do it here
+    }
+
+    IEnumerator ShootCooldown() {
+        canShoot = false;
+        yield return new WaitForSeconds(2f);
+        canShoot = true;
     }
 }
