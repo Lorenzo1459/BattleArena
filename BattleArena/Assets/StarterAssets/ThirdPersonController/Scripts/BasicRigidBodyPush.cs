@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using StarterAssets;
+using UnityEngine;
 
 public class BasicRigidBodyPush : MonoBehaviour
 {
@@ -11,9 +12,11 @@ public class BasicRigidBodyPush : MonoBehaviour
 	
 	private CharacterController characterController;
 
+	private ThirdPersonController thirdPersonController;
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
+        thirdPersonController = GetComponent<ThirdPersonController>();
     }
 
     private void Update()
@@ -25,16 +28,18 @@ public class BasicRigidBodyPush : MonoBehaviour
 
 		if (canPush)
 		{
+            thirdPersonController.canMove = false;
 			PushRigidBodies();
+		}else{
+            thirdPersonController.canMove = true;
 		}
 
 	}
 
-	public void Push(Vector3 direction, float distanceFactor)
+	public void Push(Vector3 direction)
 	{
 		canPush = true;
 		currentPushForce = pushForce;
-		currentPushForce -= distanceFactor;
         pushDirection = direction;
 
     }
@@ -42,7 +47,8 @@ public class BasicRigidBodyPush : MonoBehaviour
 	private void PushRigidBodies()
 	{
 		currentPushForce -= Time.deltaTime;
-		characterController.Move(pushDirection * currentPushForce * Time.deltaTime);
+		characterController.Move(pushDirection * currentPushForce * Time.deltaTime * 5);
+		characterController.Move(Vector3.up * currentPushForce * Time.deltaTime * 3);
 	}
 
 }

@@ -87,6 +87,8 @@ namespace StarterAssets
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
+        public bool canMove = true;
+
         // timeout deltatime
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
@@ -158,7 +160,9 @@ namespace StarterAssets
 
             JumpAndGravity();
             GroundedCheck();
-            Move();
+            if(canMove){
+                Move();
+            }
         }
 
         private void LateUpdate()
