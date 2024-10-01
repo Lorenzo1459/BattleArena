@@ -74,7 +74,7 @@ public class EnemyAI : MonoBehaviour {
 
                 if (distanceToTarget <= shootingRange && fireCooldown <= 0) {
                     Shoot();
-                    fireCooldown = 1f / fireRate; // Reseta o cooldown do tiro
+                    fireCooldown = 1.5f / fireRate; // Reseta o cooldown do tiro
                 }
             }
         }

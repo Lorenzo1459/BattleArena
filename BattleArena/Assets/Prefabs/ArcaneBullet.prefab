@@ -9800,6 +9800,7 @@ MonoBehaviour:
   lifetime: 2
   pushForce: 50
   explosionForce: {fileID: 1491972144882579384}
+  collisionEffect: {fileID: 100000, guid: 77ec3c4e07a36814fb3169ecef41b50a, type: 3}
 --- !u!135 &3480460313471014531
 SphereCollider:
   m_ObjectHideFlags: 0
