@@ -19,8 +19,8 @@ public class PlayerShooting : MonoBehaviour {
 
     void Shoot() {
         // Instantiate the bullet at the fire point
-        GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-
+        Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0f));
+        GameObject bullet = Instantiate(projectilePrefab, pos, Quaternion.identity);
         // Calculate the direction based on the mouse position
         Vector3 mousePosition = Input.mousePosition;
         mousePosition.z = Camera.main.nearClipPlane; // Set distance from camera

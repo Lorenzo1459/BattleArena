@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision other) {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 10);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 3);
         foreach (Collider collider in colliders)
         {
             CharacterController characterController = collider.GetComponent<CharacterController>();
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour {
                 Vector3 explosionDirection = collider.transform.position - transform.position;
                 float distance = explosionDirection.magnitude;
 
-                characterController.gameObject.GetComponent<BasicRigidBodyPush>().Push(explosionDirection, distance);
+                characterController.gameObject.GetComponent<BasicRigidBodyPush>().Push(explosionDirection);
                 //explosionDirection.Normalize();
             }
         }
