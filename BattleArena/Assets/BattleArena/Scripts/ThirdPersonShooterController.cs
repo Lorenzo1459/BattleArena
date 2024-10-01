@@ -17,7 +17,9 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Awake(){
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        thirdPersonController = GetComponent<ThirdPersonController>();        
+        thirdPersonController = GetComponent<ThirdPersonController>();
+        Cursor.visible = false; // Hide the mouse cursor
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update(){
         Vector3 mouseWorldPosition = Vector3.zero; 

@@ -22,4 +22,11 @@ public class MainMenu : MonoBehaviour {
         Application.Quit();
         Debug.Log("Game is exiting.");
     }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.M)) {
+            // Mute the audio
+            AudioListener.pause = !AudioListener.pause;
+        }
+    }
 }
